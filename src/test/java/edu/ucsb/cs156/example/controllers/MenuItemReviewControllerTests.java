@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MvcResult;
 
@@ -25,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -200,6 +202,60 @@ public class MenuItemReviewControllerTests extends ControllerTestCase {
                 Map<String, Object> json = responseToJson(response);
                 assertEquals("EntityNotFoundException", json.get("type"));
                 assertEquals("MenuItemReview with id 7 not found", json.get("message"));
+        }
+
+
+        // Tests for DELETE /api/MenuItemReview?id=... 
+
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_can_delete_a_menuitemreview() throws Exception {
+                // arrange
+
+                LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+
+                MenuItemReview menuitemReview = MenuItemReview.builder()
+                                .itemId(7L)      
+                                .reviewerEmail("cgaucho@ucsb.edu")
+                                .stars(5)       
+                                .dateReviewed(ldt1)
+                                .comments("I love the apple pie")
+                                .build();
+
+                when(menuitemReviewRepository.findById(eq(17L))).thenReturn(Optional.of(menuitemReview));
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                delete("/api/MenuItemReview?id=17")
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(menuitemReviewRepository, times(1)).findById(17L);
+                verify(menuitemReviewRepository, times(1)).delete(any());
+
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("MenuItemReview with id 17 deleted", json.get("message"));
+        }
+        
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void admin_tries_to_delete_non_existant_menuitemreview_and_gets_right_error_message()
+                        throws Exception {
+                // arrange
+
+                when(menuitemReviewRepository.findById(eq(15L))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                delete("/api/MenuItemReview?id=17")
+                                                .with(csrf()))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+                verify(menuitemReviewRepository, times(1)).findById(17L);
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("MenuItemReview with id 17 not found", json.get("message"));
         }
 
 }
