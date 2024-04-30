@@ -255,7 +255,7 @@ public class ArticlesControllerTests extends ControllerTestCase {
                 assertEquals("Articles with id 15 not found", json.get("message"));
         }
 
-        // Tests for PUT /api/Articles?id=... 
+        // Tests for PUT /api/Articles?id=...
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
