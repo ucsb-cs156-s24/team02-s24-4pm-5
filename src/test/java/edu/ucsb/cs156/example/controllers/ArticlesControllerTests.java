@@ -65,20 +65,20 @@ public class ArticlesControllerTests extends ControllerTestCase {
                 LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
 
                 Articles articles1 = Articles.builder()
-                                .title("How to Cure Cancer")
-                                .url("medicalwebsite.com/curingcancer")
-                                .explanation("this is how you cure cancer")
-                                .email("garvinwyoung@ucsb.edu")
+                                .title("Wow")
+                                .url("coolmathgames.com")
+                                .explanation("cool stuff here")
+                                .email("email1")
                                 .dateAdded(ldt1)
                                 .build();
 
                 LocalDateTime ldt2 = LocalDateTime.parse("2022-03-11T00:00:00");
 
                 Articles articles2 = Articles.builder()
-                                .title("How to Cure SPACE Cancer")
-                                .url("medicalwebsite.com/curingSPACEcancer")
-                                .explanation("this is how you cure SPACE cancer")
-                                .email("garvinwyoung@ucsb.edu")
+                                .title("Wow2")
+                                .url("coolmathgames.com2")
+                                .explanation("cool stuff here2")
+                                .email("email2")
                                 .dateAdded(ldt2)
                                 .build();
 
@@ -116,16 +116,16 @@ public class ArticlesControllerTests extends ControllerTestCase {
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void an_admin_user_can_post_a_new_article() throws Exception {
+        public void an_admin_user_can_post_a_new_articles() throws Exception {
                 // arrange
 
                 LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
 
                 Articles articles1 = Articles.builder()
-                                .title("How to Cure SUPER SPACE Cancer")
-                                .url("medicalwebsite.com/curingSUPERSPACEcancer")
-                                .explanation("this is how you cure SUPER SPACE cancer")
-                                .email("garvinwyoung@ucsb.edu")
+                                .title("Wow")
+                                .url("coolmathgames.com")
+                                .explanation("cool stuff here")
+                                .email("email1")
                                 .dateAdded(ldt1)
                                 .build();
 
@@ -133,7 +133,7 @@ public class ArticlesControllerTests extends ControllerTestCase {
 
                 // act
                 MvcResult response = mockMvc.perform(
-                                post("/api/Articles/post?title=How to Cure SUPER SPACE Cancer&url=medicalwebsite.com/curingSUPERSPACEcancer&explanation=this is how you cure SUPER SPACE cancer&email=garvinwyoung@ucsb.edu&dateAdded=2022-01-03T00:00:00")
+                                post("/api/Articles/post?title=Wow&url=coolmathgames.com&explanation=cool stuff here&email=email1&dateAdded=2022-01-03T00:00:00")
                                                 .with(csrf()))
                                 .andExpect(status().isOk()).andReturn();
 
@@ -143,4 +143,64 @@ public class ArticlesControllerTests extends ControllerTestCase {
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(expectedJson, responseString);
         }
+
+        // Tests for GET /api/Articles?id=...
+
+        @Test
+        public void logged_out_users_cannot_get_by_id() throws Exception {
+                mockMvc.perform(get("/api/Articles?id=7"))
+                                .andExpect(status().is(403)); // logged out users can't get by id
+        }
+
+        @WithMockUser(roles = { "USER" })
+        @Test
+        public void test_that_logged_in_user_can_get_by_id_when_the_id_exists() throws Exception {
+
+                // arrange
+                LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+
+                Articles articles1 = Articles.builder()
+                                .title("Wow")
+                                .url("coolmathgames.com")
+                                .explanation("cool stuff here")
+                                .email("email1")
+                                .dateAdded(ldt1)
+                                .build();
+
+                when(articlesRepository.findById(eq(7L))).thenReturn(Optional.of(articles1));
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/Articles?id=7"))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+
+                verify(articlesRepository, times(1)).findById(eq(7L));
+                String expectedJson = mapper.writeValueAsString(articles1);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(expectedJson, responseString);
+        }
+
+        @WithMockUser(roles = { "USER" })
+        @Test
+        public void test_that_logged_in_user_can_get_by_id_when_the_id_does_not_exist() throws Exception {
+
+                // arrange
+
+                when(articlesRepository.findById(eq(7L))).thenReturn(Optional.empty());
+
+                // act
+                MvcResult response = mockMvc.perform(get("/api/Articles?id=7"))
+                                .andExpect(status().isNotFound()).andReturn();
+
+                // assert
+
+                verify(articlesRepository, times(1)).findById(eq(7L));
+                Map<String, Object> json = responseToJson(response);
+                assertEquals("EntityNotFoundException", json.get("type"));
+                assertEquals("Articles with id 7 not found", json.get("message"));
+        }
+
+
+
 }

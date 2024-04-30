@@ -55,21 +55,34 @@ public class ArticlesController extends ApiController {
         @Parameter(name="dateAdded") @RequestParam("dateAdded") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateAdded)
         throws JsonProcessingException {
 
-    // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    // See: https://www.baeldung.com/spring-date-parameters
+        // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+        // See: https://www.baeldung.com/spring-date-parameters
 
-    log.info("dateAdded={}", dateAdded);
+        log.info("dateAdded={}", dateAdded);
 
-    Articles articles = new Articles();
-    articles.setTitle(title);
-    articles.setUrl(url);
-    articles.setExplanation(explanation);
-    articles.setEmail(email);
-    articles.setDateAdded(dateAdded);
+        Articles articles = new Articles();
+        articles.setTitle(title);
+        articles.setUrl(url);
+        articles.setExplanation(explanation);
+        articles.setEmail(email);
+        articles.setDateAdded(dateAdded);
 
-    Articles savedArticles = articlesRepository.save(articles);
+        Articles savedArticles = articlesRepository.save(articles);
 
-    return savedArticles;
-}
+        return savedArticles;
+    }
+
+    @Operation(summary= "Get a single article")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public Articles getById(
+            @Parameter(name="id") @RequestParam Long id) {
+        Articles articles = articlesRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(Articles.class, id));
+
+        return articles;
+    }
+
+
 
 }
