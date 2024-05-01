@@ -51,7 +51,7 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
         @Parameter(name="name") @RequestParam String name,
         @Parameter(name="station") @RequestParam String station
         )
-        {
+        throws JsonProcessingException {
 
         UCSBDiningCommonsMenuItem commonsMenuItem = new UCSBDiningCommonsMenuItem();
         commonsMenuItem.setDiningCommonsCode(diningCommonsCode);
@@ -63,13 +63,32 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
         return savedMenuItems;
     }
 
-    @Operation(summary= "Get a single dining commons menu items by id")
+    @Operation(summary= "Get a single dining commons menu items")
     @PreAuthorize("hasRole('ROLE_USER')")
     @GetMapping("")
     public UCSBDiningCommonsMenuItem getById(
             @Parameter(name="id") @RequestParam Long id) {
             UCSBDiningCommonsMenuItem commonsMenuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+        return commonsMenuItem;
+    }
+
+    @Operation(summary= "Update a single dining commons menu items")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public UCSBDiningCommonsMenuItem updateUCSBDiningCommonsMenuItem(
+            @Parameter(name="id") @RequestParam Long id,
+            @RequestBody @Valid UCSBDiningCommonsMenuItem updatedMenuItem) {
+
+        UCSBDiningCommonsMenuItem commonsMenuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+        commonsMenuItem.setDiningCommonsCode(updatedMenuItem.getDiningCommonsCode());
+        commonsMenuItem.setName(updatedMenuItem.getName());
+        commonsMenuItem.setStation(updatedMenuItem.getStation());
+
+        ucsbDiningCommonsMenuItemRepository.save(commonsMenuItem);
 
         return commonsMenuItem;
     }
