@@ -70,7 +70,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .tableOrBreakoutRoom("5")
                                 .requestTime(ldt1)
                                 .explanation("help with team02 controller")
-                                .solve(false)
+                                .solved(false)
                                 .build();
 
                 LocalDateTime ldt2 = LocalDateTime.parse("2022-01-04T00:00:00");
@@ -81,7 +81,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .tableOrBreakoutRoom("6")
                                 .requestTime(ldt2)
                                 .explanation("help with dokku")
-                                .solve(true)
+                                .solved(true)
                                 .build();
 
                 ArrayList<HelpRequest> expectedRequests = new ArrayList<>();
@@ -129,7 +129,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .tableOrBreakoutRoom("5")
                                 .requestTime(ldt1)
                                 .explanation("help with team02 controller")
-                                .solve(false)
+                                .solved(false)
                                 .build();
                 when(helpRequestRepository.save(eq(helpRequest1))).thenReturn(helpRequest1);
 
@@ -161,13 +161,13 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                 // arrange
                 LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
 
-                HelpRequest helpRequest1 = HelpRequest.builder()
+                HelpRequest helpRequest = HelpRequest.builder()
                                 .requesterEmail("cgaucho@ucsb.edu")
                                 .teamId("s24-4pm-5")
                                 .tableOrBreakoutRoom("5")
                                 .requestTime(ldt1)
                                 .explanation("help with team02 controller")
-                                .solve(false)
+                                .solved(false)
                                 .build();
 
                 when(helpRequestRepository.findById(eq(7L))).thenReturn(Optional.of(helpRequest));
@@ -219,7 +219,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .tableOrBreakoutRoom("5")
                                 .requestTime(ldt1)
                                 .explanation("help with team02 controller")
-                                .solve(false)
+                                .solved(false)
                                 .build();
 
                 when(helpRequestRepository.findById(eq(15L))).thenReturn(Optional.of(helpRequest1));
@@ -274,7 +274,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .tableOrBreakoutRoom("5")
                                 .requestTime(ldt1)
                                 .explanation("help with team02 controller")
-                                .solve(false)
+                                .solved(false)
                                 .build();
 
 
@@ -284,7 +284,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .tableOrBreakoutRoom("6")
                                 .requestTime(ldt2)
                                 .explanation("help with dokku")
-                                .solve(true)
+                                .solved(true)
                                 .build();
 
                 String requestBody = mapper.writeValueAsString(helpRequestEdited);
@@ -321,7 +321,7 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                                 .tableOrBreakoutRoom("5")
                                 .requestTime(ldt1)
                                 .explanation("help with team02 controller")
-                                .solve(false)
+                                .solved(false)
                                 .build();
 
 
