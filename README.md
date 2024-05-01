@@ -1,6 +1,15 @@
 # team02-s24-4pm-5
-
+```
 Instructions: <https://ucsb-cs156.github.io/s24/lab/team02.html>
+
+| Table                       | Team Member  | Github Id     |
+|-----------------------------|--------------|---------------|
+| `UCSBDiningCommonsMenuItem` | Baimin       | baimin-wang   |
+| `UCSBOrganization`          | Ray          | congruidu     |
+| `RecommendationRequest`     | Jason        | jasontnguyen  |
+| `MenuItemReview`            | Steven       | nevetsle      |
+| `HelpRequest`               | Winston      |winstonwangUCSB|
+| `Articles`                  | Garvin       | GarvinYoung   |
 
 Deployments:
 
