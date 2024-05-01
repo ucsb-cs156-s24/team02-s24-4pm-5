@@ -71,7 +71,31 @@ public class MenuItemReviewController extends ApiController {
         MenuItemReview savedMenuItemReview = menuitemReviewRepository.save(menuitemReview);
 
         return savedMenuItemReview;
-    }
+
+         }
+
+        @Operation(summary= "Get a single menu item review")
+        @PreAuthorize("hasRole('ROLE_USER')")
+        @GetMapping("")
+        public MenuItemReview getById(
+                @Parameter(name="id") @RequestParam Long id) {
+                    MenuItemReview menuitemReview = menuitemReviewRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException(MenuItemReview.class, id));
+    
+            return menuitemReview;
+        }
+
+        @Operation(summary= "Delete a menu item review")
+        @PreAuthorize("hasRole('ROLE_ADMIN')")
+        @DeleteMapping("")
+        public Object deleteMenuItemReview(
+                @Parameter(name="id") @RequestParam Long id) {
+                    MenuItemReview menuitemReview = menuitemReviewRepository.findById(id)
+                    .orElseThrow(() -> new EntityNotFoundException(MenuItemReview.class, id));
+                    menuitemReviewRepository.delete(menuitemReview);
+            return genericMessage("MenuItemReview with id %s deleted".formatted(id));
+        }
+    
 
 
 }
