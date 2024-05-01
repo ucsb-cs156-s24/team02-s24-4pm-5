@@ -259,16 +259,18 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void admin_can_delete_an_article() throws Exception {
+        public void admin_can_delete_a_menuitem() throws Exception {
                 // arrange
 
-                UCSBDiningCommonsMenuItem menuItem1 = UCSBDiningCommonsMenuItem.builder()
-                                    .name("taco")
-                                    .diningCommonsCode("dlg")
-                                    .station("grill")
+                
+
+                UCSBDiningCommonsMenuItem ucsbMenu1 = UCSBDiningCommonsMenuItem.builder()
+                                    .name("burito")
+                                    .diningCommonsCode("carillo")
+                                    .station("roll")
                                     .build();
 
-                when(ucsbDiningCommonsMenuItemRepository.findById(eq(123L))).thenReturn(Optional.of(menuItem1));
+                when(ucsbDiningCommonsMenuItemRepository.findById(eq(123L))).thenReturn(Optional.of(ucsbMenu1));
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -286,7 +288,7 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
         
         @WithMockUser(roles = { "ADMIN", "USER" })
         @Test
-        public void admin_tries_to_delete_non_existant_article_and_gets_right_error_message()
+        public void admin_tries_to_delete_non_existant_ucsbdate_and_gets_right_error_message()
                         throws Exception {
                 // arrange
 
