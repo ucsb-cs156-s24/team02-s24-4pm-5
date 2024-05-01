@@ -1,8 +1,8 @@
 package edu.ucsb.cs156.example.controllers;
 
-import edu.ucsb.cs156.example.entities.HelpRequests;
+import edu.ucsb.cs156.example.entities.HelpRequest;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
-import edu.ucsb.cs156.example.repositories.HelpRequestsRepository;
+import edu.ucsb.cs156.example.repositories.HelpRequestRepository;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -63,7 +63,7 @@ public class HelpRequestController extends ApiController {
 
         HelpRequest helpRequest = new HelpRequest();
         helpRequest.setRequesterEmail(requesterEmail);
-        helpRequest.setTeamID(teamId);
+        helpRequest.setTeamId(teamId);
         helpRequest.setTableOrBreakoutRoom(tableOrBreakoutRoom);
         helpRequest.setRequestTime(requestTime);
         helpRequest.setExplanation(explanation);
@@ -91,7 +91,7 @@ public class HelpRequestController extends ApiController {
     @DeleteMapping("")
     public Object deleteHelpRequest(
             @Parameter(name="id") @RequestParam Long id) {
-        HelpRequest helpRequest = helpRepository.findById(id)
+        HelpRequest helpRequest = helpRequestRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(HelpRequest.class, id));
 
         helpRequestRepository.delete(helpRequest);
@@ -112,7 +112,7 @@ public class HelpRequestController extends ApiController {
         helpRequest.setRequesterEmail(incoming.getRequesterEmail());  
         helpRequest.setTeamId(incoming.getTeamId());
         helpRequest.setTableOrBreakoutRoom(incoming.getTableOrBreakoutRoom());
-        helpRequest.setRequestTime(incoming.getRequesttime());
+        helpRequest.setRequestTime(incoming.getRequestTime());
         helpRequest.setExplanation(incoming.getExplanation());
         helpRequest.setSolved(incoming.getSolved());
 
