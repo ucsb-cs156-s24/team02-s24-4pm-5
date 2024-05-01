@@ -63,4 +63,45 @@ public class UCSBDiningCommonsMenuItemController extends ApiController {
         return savedMenuItems;
     }
 
+    @Operation(summary= "Get a single dining commons menu items")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    @GetMapping("")
+    public UCSBDiningCommonsMenuItem getById(
+            @Parameter(name="id") @RequestParam Long id) {
+            UCSBDiningCommonsMenuItem commonsMenuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+        return commonsMenuItem;
+    }
+
+    @Operation(summary= "Update a single dining commons menu items")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PutMapping("")
+    public UCSBDiningCommonsMenuItem updateUCSBDiningCommonsMenuItem(
+            @Parameter(name="id") @RequestParam Long id,
+            @RequestBody @Valid UCSBDiningCommonsMenuItem updatedMenuItem) {
+
+        UCSBDiningCommonsMenuItem commonsMenuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+        commonsMenuItem.setDiningCommonsCode(updatedMenuItem.getDiningCommonsCode());
+        commonsMenuItem.setName(updatedMenuItem.getName());
+        commonsMenuItem.setStation(updatedMenuItem.getStation());
+
+        ucsbDiningCommonsMenuItemRepository.save(commonsMenuItem);
+
+        return commonsMenuItem;
+    }
+
+    @Operation(summary= "Delete a dining commons menu items")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @DeleteMapping("")
+    public Object deleteUCSBDiningCommonsMenuItem(
+            @Parameter(name="id") @RequestParam Long id) {
+        UCSBDiningCommonsMenuItem commonsMenuItem = ucsbDiningCommonsMenuItemRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(UCSBDiningCommonsMenuItem.class, id));
+
+        ucsbDiningCommonsMenuItemRepository.delete(commonsMenuItem);
+        return genericMessage("UCSBDiningCommonsMenuItem with id %s deleted".formatted(id));
+    }
 }
