@@ -69,8 +69,8 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
             UCSBDiningCommonsMenuItem item2 = UCSBDiningCommonsMenuItem.builder()
                                 .name("burito")
-                                .diningCommonsCode("dlg")
-                                .station("grill")
+                                .diningCommonsCode("carillo")
+                                .station("roll")
                                 .build();
 
             ArrayList<UCSBDiningCommonsMenuItem> expectedItems = new ArrayList<>(Arrays.asList(item1, item2));
@@ -189,21 +189,21 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
         public void admin_can_edit_an_existing_ucsbdiningcommonsmenuitem() throws Exception {
                 // arrange
 
-                UCSBDiningCommonsMenuItem item1 = UCSBDiningCommonsMenuItem.builder()
-                                .name("taco")
-                                .diningCommonsCode("dlg")
-                                .station("grill")
-                                .build();
+                UCSBDiningCommonsMenuItem ucsbMenuItemOrig = UCSBDiningCommonsMenuItem.builder()
+                                    .name("taco")
+                                    .diningCommonsCode("dlg")
+                                    .station("grill")
+                                    .build();
 
-                UCSBDiningCommonsMenuItem item2 = UCSBDiningCommonsMenuItem.builder()
-                                .name("burito")
-                                .diningCommonsCode("dlg")
-                                .station("grill")
-                                .build();
+                UCSBDiningCommonsMenuItem ucsbMenuItemEdited = UCSBDiningCommonsMenuItem.builder()
+                                    .name("burito")
+                                    .diningCommonsCode("carillo")
+                                    .station("roll")
+                                    .build();
 
-                String requestBody = mapper.writeValueAsString(item2);
+                String requestBody = mapper.writeValueAsString(ucsbMenuItemEdited);
 
-                when(ucsbDiningCommonsMenuItemRepository.findById(eq(123L))).thenReturn(Optional.of(item1));
+                when(ucsbDiningCommonsMenuItemRepository.findById(eq(123L))).thenReturn(Optional.of(ucsbMenuItemOrig));
 
                 // act
                 MvcResult response = mockMvc.perform(
@@ -216,7 +216,7 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
                 // assert
                 verify(ucsbDiningCommonsMenuItemRepository, times(1)).findById(123L);
-                verify(ucsbDiningCommonsMenuItemRepository, times(1)).save(item2); // should be saved with correct user
+                verify(ucsbDiningCommonsMenuItemRepository, times(1)).save(ucsbMenuItemEdited); // should be saved with correct user
                 String responseString = response.getResponse().getContentAsString();
                 assertEquals(requestBody, responseString);
         }
@@ -228,13 +228,13 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
                 // arrange
 
                 
-                UCSBDiningCommonsMenuItem item2 = UCSBDiningCommonsMenuItem.builder()
-                                .name("burito")
-                                .diningCommonsCode("dlg")
-                                .station("grill")
-                                .build();
+                UCSBDiningCommonsMenuItem ucsbMenuItemEdited = UCSBDiningCommonsMenuItem.builder()
+                                    .name("burito")
+                                    .diningCommonsCode("carillo")
+                                    .station("roll")
+                                    .build();
 
-                String requestBody = mapper.writeValueAsString(item2);
+                String requestBody = mapper.writeValueAsString(ucsbMenuItemEdited);
 
                 when(ucsbDiningCommonsMenuItemRepository.findById(eq(123L))).thenReturn(Optional.empty());
 
@@ -253,4 +253,5 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
                 assertEquals("UCSBDiningCommonsMenuItem with id 123 not found", json.get("message"));
 
         }
+
 }
