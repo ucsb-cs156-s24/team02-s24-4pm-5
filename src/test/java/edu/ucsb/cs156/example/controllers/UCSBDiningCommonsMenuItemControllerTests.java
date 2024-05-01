@@ -264,13 +264,13 @@ public class UCSBDiningCommonsMenuItemControllerTests extends ControllerTestCase
 
                 
 
-                UCSBDiningCommonsMenuItem ucsbMenu1 = UCSBDiningCommonsMenuItem.builder()
+                UCSBDiningCommonsMenuItem menuItem1 = UCSBDiningCommonsMenuItem.builder()
                                     .name("burito")
                                     .diningCommonsCode("carillo")
                                     .station("roll")
                                     .build();
 
-                when(ucsbDiningCommonsMenuItemRepository.findById(eq(123L))).thenReturn(Optional.of(ucsbMenu1));
+                when(ucsbDiningCommonsMenuItemRepository.findById(eq(123L))).thenReturn(Optional.of(menuItem1));
 
                 // act
                 MvcResult response = mockMvc.perform(
