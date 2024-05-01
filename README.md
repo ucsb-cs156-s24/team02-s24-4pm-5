@@ -1,5 +1,5 @@
 # team02-s24-4pm-5
-```
+
 Instructions: <https://ucsb-cs156.github.io/s24/lab/team02.html>
 
 | Table                       | Team Member  | Github Id     |
