@@ -55,22 +55,35 @@ import java.time.LocalDateTime;
         @Parameter(name=&quot;dateAdded&quot;) @RequestParam(&quot;dateAdded&quot;) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime dateAdded)
         throws JsonProcessingException {
 
-    // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-    // See: https://www.baeldung.com/spring-date-parameters
+        // For an explanation of @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+        // See: https://www.baeldung.com/spring-date-parameters
 
-<span class="fc" id="L61">    log.info(&quot;dateAdded={}&quot;, dateAdded);</span>
+<span class="fc" id="L61">        log.info(&quot;dateAdded={}&quot;, dateAdded);</span>
 
-<span class="fc" id="L63">    Articles articles = new Articles();</span>
-<span class="fc" id="L64">    articles.setTitle(title);</span>
-<span class="fc" id="L65">    articles.setUrl(url);</span>
-<span class="fc" id="L66">    articles.setExplanation(explanation);</span>
-<span class="fc" id="L67">    articles.setEmail(email);</span>
-<span class="fc" id="L68">    articles.setDateAdded(dateAdded);</span>
+<span class="fc" id="L63">        Articles articles = new Articles();</span>
+<span class="fc" id="L64">        articles.setTitle(title);</span>
+<span class="fc" id="L65">        articles.setUrl(url);</span>
+<span class="fc" id="L66">        articles.setExplanation(explanation);</span>
+<span class="fc" id="L67">        articles.setEmail(email);</span>
+<span class="fc" id="L68">        articles.setDateAdded(dateAdded);</span>
 
-<span class="fc" id="L70">    Articles savedArticles = articlesRepository.save(articles);</span>
+<span class="fc" id="L70">        Articles savedArticles = articlesRepository.save(articles);</span>
 
-<span class="fc" id="L72">    return savedArticles;</span>
-}
+<span class="fc" id="L72">        return savedArticles;</span>
+    }
+
+    @Operation(summary= &quot;Get a single article&quot;)
+    @PreAuthorize(&quot;hasRole('ROLE_USER')&quot;)
+    @GetMapping(&quot;&quot;)
+    public Articles getById(
+            @Parameter(name=&quot;id&quot;) @RequestParam Long id) {
+<span class="fc" id="L80">        Articles articles = articlesRepository.findById(id)</span>
+<span class="fc" id="L81">                .orElseThrow(() -&gt; new EntityNotFoundException(Articles.class, id));</span>
+
+<span class="fc" id="L83">        return articles;</span>
+    }
+
+
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
