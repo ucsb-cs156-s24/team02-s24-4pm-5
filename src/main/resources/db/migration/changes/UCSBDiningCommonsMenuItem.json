@@ -1,9 +1,9 @@
-{ 
+{
     "databaseChangeLog": [
-    {
+      {
         "changeSet": {
-          "id": "HelpRequests-1",
-          "author": "WinstonW",
+          "id": "UCSBDiningCommonsMenuItems-1",
+          "author": "Baimin Wang",
           "preConditions": [
             {
               "onFail": "MARK_RAN"
@@ -12,7 +12,7 @@
               "not": [
                 {
                   "tableExists": {
-                    "tableName": "HELPREQUESTS"
+                    "tableName": "UCSBDININGCOMMONSMENUITEM"
                   }
                 }
               ]
@@ -27,8 +27,7 @@
                       "autoIncrement": true,
                       "constraints": {
                         "primaryKey": true,
-                        "primaryKeyName": "CONSTRAINT_1"
-
+                        "primaryKeyName": "CONSTRAINT_56854654"
                       },
                       "name": "ID",
                       "type": "BIGINT"
@@ -36,45 +35,28 @@
                   },
                   {
                     "column": {
-                      "name": "REQUESTER_EMAIL",
+                      "name": "DINING_COMMONS_CODE",
                       "type": "VARCHAR(255)"
                     }
                   },
                   {
                     "column": {
-                      "name": "TEAM_ID",
+                      "name": "NAME",
                       "type": "VARCHAR(255)"
                     }
                   },
                   {
                     "column": {
-                      "name": "TABLE_OR_BREAKOUT_ROOM",
+                      "name": "STATION",
                       "type": "VARCHAR(255)"
                     }
-                  },
-                  {
-                    "column": {
-                      "name": "REQUEST_TIME",
-                      "type": "TIMESTAMP"
-                    }
-                  },
-                  {
-                    "column": {
-                      "name": "EXPLANATION",
-                      "type": "VARCHAR(255)"
-                    }
-                  },
-                  {
-                    "column": {
-                      "name": "SOLVED",
-                      "type": "BOOLEAN"
-                    }
-                  }]
-                ,
-                "tableName": "HELPREQUESTS"
+                  }
+                ],
+                "tableName": "UCSBDININGCOMMONSMENUITEM"
               }
-            }]
-
+            }
+          ]
         }
-    }
-]}
+      }
+    ]
+  }
