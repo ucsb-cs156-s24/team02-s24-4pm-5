@@ -146,6 +146,35 @@ public class HelpRequestControllerTests extends ControllerTestCase {
                 assertEquals(expectedJson, responseString);
         }
 
+        @WithMockUser(roles = { "ADMIN", "USER" })
+        @Test
+        public void an_admin_user_can_post_a_new_helprequest2() throws Exception {
+                // arrange
+
+                LocalDateTime ldt1 = LocalDateTime.parse("2022-01-03T00:00:00");
+
+		HelpRequest helpRequest1 = HelpRequest.builder()
+                                .requesterEmail("cgaucho@ucsb.edu")
+                                .teamId("s24-4pm-5")
+                                .tableOrBreakoutRoom("5")
+                                .requestTime(ldt1)
+                                .explanation("help with team02 controller")
+                                .solved(true)
+                                .build();
+                when(helpRequestRepository.save(eq(helpRequest1))).thenReturn(helpRequest1);
+
+                // act
+                MvcResult response = mockMvc.perform(
+                                post("/api/HelpRequest/post?requesterEmail=cgaucho@ucsb.edu&teamId=s24-4pm-5&tableOrBreakoutRoom=5&requestTime=2022-01-03T00:00:00&explanation=help with team02 controller&solved=true")
+                                                .with(csrf()))
+                                .andExpect(status().isOk()).andReturn();
+
+                // assert
+                verify(helpRequestRepository, times(1)).save(helpRequest1);
+                String expectedJson = mapper.writeValueAsString(helpRequest1);
+                String responseString = response.getResponse().getContentAsString();
+                assertEquals(expectedJson, responseString);
+        }
         // Tests for GET /api/HelpRequest?id=...
 
         @Test
