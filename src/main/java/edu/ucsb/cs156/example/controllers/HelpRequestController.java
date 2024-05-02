@@ -1,4 +1,4 @@
-ackage edu.ucsb.cs156.example.controllers;
+package edu.ucsb.cs156.example.controllers;
 
 import edu.ucsb.cs156.example.entities.HelpRequest;
 import edu.ucsb.cs156.example.errors.EntityNotFoundException;
@@ -74,3 +74,4 @@ public class HelpRequestController extends ApiController {
 
         return savedHelpRequest;
     }
+}
