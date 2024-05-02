@@ -23,4 +23,4 @@ repo_name: "TBD"
 repo: ucsb-cs156-s24/team02-s24-4pm-5
 owner: ucsb-cs156-s24
 repo_name: team02-s24-4pm-5
-pull_requests: [{"author":{"id":"U_kgDOBXcy6w","is_bot":false,"login":"winstonwangUCSB","name":""},"headRefName":"WW-HelpRequest-createController","number":73,"title":"Created HelpRequest Controller, Get (index), and Post (create) ","url":"https://github.com/ucsb-cs156-s24/team02-s24-4pm-5/pull/73"}]
+pull_requests: [{"author":{"id":"U_kgDOBXcy6w","is_bot":false,"login":"winstonwangUCSB","name":""},"headRefName":"Winston-HelpRequestTable","number":75,"title":"Winston help request table","url":"https://github.com/ucsb-cs156-s24/team02-s24-4pm-5/pull/75"},{"author":{"id":"U_kgDOBXcy6w","is_bot":false,"login":"winstonwangUCSB","name":""},"headRefName":"WW-HelpRequest-createController","number":73,"title":"Created HelpRequest Controller, Get (index), and Post (create) ","url":"https://github.com/ucsb-cs156-s24/team02-s24-4pm-5/pull/73"}]
